@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<style type="text/css">
+			html,body{
+				margin:0;border:0;padding:0;
+				font-size: 12px;
+				font-family: Tahoma,Arial,Helvetica;
+			}
+			#ymap {
+                				    width:600px;
+                				height:450px;
+                text-align: center;
+                font-size: 16px;
+			}
+			#ymap.popup{
+				text-align: center;
+				height:225px;
+				padding-top:225px;
+			}
+			#ajax-loader{background-image:url('/img/30.png'); margin:10px auto; width:120px; height:15px;}
+
+	</style>
+	<script type="text/javascript">function ymapifault(){}</script>
+	<script src="//api-maps.yandex.ru/2.0/?load=package.full&mode=release&lang=ru-RU" type="text/javascript"></script>
+	<script type="text/javascript">
+                				var address = "109052, Россия, Москва, Ул. Смирновская д.25 стр.12";
+				var addresstype = "addr";
+		var width = 600;
+		var height = 450;
+		var zoom   = 15;
+		var mapType = "0";
+        var layer = "yandex#map";
+
+		createMap = function(coords, mapType, layerMap) {
+			var point = new ymaps.Placemark(coords);
+			var myMap = new ymaps.Map("ymap", {
+					center: coords,
+					zoom: zoom,
+                    type: layer
+				}
+			);
+
+            myMap.controls
+                    .add('zoomControl')
+                    .add('typeSelector');
+
+			myMap.geoObjects.add(point);
+
+			switch (mapType) {
+				case 'embedded':
+						myMap.controls
+							.add('zoomControl')
+							.add('typeSelector');
+					break;
+				case 'popup':
+						myMap.controls
+							.add('mapTools')
+							.add('zoomControl')
+							.add('typeSelector')
+							.add('miniMap')
+							.add('scaleLine');
+					break;
+			}
+		}
+
+        window.onload = function () {
+			//var map = new YMaps.Map();
+			//var geocoder = new YMaps.Geocoder(address);
+			if (addresstype == 'coords') {
+				createMap(address, mapType, layer);
+			} else {
+				var myGeocoder = ymaps.geocode(address);
+				// Создает обработчик успешного завершения геокодирования
+				myGeocoder.then(
+					function (res) {
+						if (res.geoObjects.getLength()) {
+							createMap(res.geoObjects.get(0).geometry.getCoordinates(), mapType, layer);
+						} else {
+                            document.getElementById("ymap").innerHTML = 'Адрес не найден';
+                        }
+					},
+					// Обработка ошибки
+					function (error) {
+						alert("Возникла ошибка: " + error.message);
+					}
+				);
+			}
+
+
+			/**YMaps.Events.observe(geocoder, geocoder.Events.Load, function () {
+				// Если объект найден, добавляет его на карту
+				// и устанавливает центр карты в центр области показа объекта
+				if (this.length()) {
+					geoResult = this.get(0);
+					YMaps.jQuery("#ymap").css({"width":width,"height":height});
+					var map = new YMaps.Map(YMaps.jQuery("#ymap"));
+					switch (mapType) {
+						case 'embedded':
+								map.addControl(new YMaps.Zoom());
+								map.addControl(new YMaps.TypeControl());
+							break;
+						case 'popup':
+								map.addControl(new YMaps.ToolBar());
+								map.addControl(new YMaps.MiniMap());
+								map.addControl(new YMaps.TypeControl());
+								map.addControl(new YMaps.Zoom());
+								map.addControl(new YMaps.ScaleLine());
+							break;
+					}
+					map.addOverlay(geoResult);
+					map.setBounds(geoResult.getBounds());
+				}else{
+										YMaps.jQuery("#ymap").html("Адрес не найден");
+				}
+			}); **/
+        }
+	</script>
+</head>
+<body>
+	<div id="ymap"></div>
+</body>
+</html>

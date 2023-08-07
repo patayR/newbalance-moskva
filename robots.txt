@@ -1,0 +1,42 @@
+User-agent: *
+Disallow: /products/*/images
+Disallow: /products/*/products
+Disallow: /filter
+Disallow: /products/search
+Disallow: /*page
+Disallow: /*?*
+Disallow: /*&*
+Sitemap: http://newbalance-moskva.ru/sitemap.xml
+
+User-agent: Googlebot
+Disallow: /products/*/images
+Disallow: /products/*/products
+Disallow: /filter
+Disallow: /products/search
+Disallow: /*page
+Disallow: /*?*
+Disallow: /*&*
+Sitemap: http://newbalance-moskva.ru/sitemap.xml
+
+User-agent: Mail.Ru
+Disallow: /products/*/images
+Disallow: /products/*/products
+Disallow: /filter
+Disallow: /products/search
+Disallow: /*page
+Disallow: /*?*
+Disallow: /*&*
+Sitemap: http://newbalance-moskva.ru/sitemap.xml
+
+User-agent: Yandex
+Disallow: /products/*/images
+Disallow: /products/*/products
+Disallow: /filter
+Disallow: /products/search
+Disallow: /*page
+Disallow: /*?*
+Disallow: /*&*
+
+
+Host: newbalance-moskva.ru
+Sitemap: http://newbalance-moskva.ru/sitemap.xml
